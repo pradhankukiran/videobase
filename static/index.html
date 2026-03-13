@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videobase</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-slate-50 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <!-- Header -->
+    <header class="mb-8">
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Videobase</h1>
+      <p class="text-sm text-slate-500 mt-1">Upload a video with subtitles, then search through it semantically.</p>
+    </header>
+
+    <!-- Upload Section -->
+    <section id="upload-section">
+      <div id="drop-zone"
+           class="drop-zone border-2 border-dashed border-slate-300 rounded-xl p-8 text-center bg-white">
+        <div class="space-y-4">
+          <div class="text-slate-400">
+            <svg class="mx-auto h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+          </div>
+          <p class="text-sm text-slate-500">Drag & drop video and transcript files, or choose below</p>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-sm font-medium text-slate-700">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              <span id="video-label">Choose video file</span>
+              <input id="video-input" type="file" accept="video/*,.mkv" class="hidden">
+            </label>
+            <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-sm font-medium text-slate-700">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span id="transcript-label">Choose transcript (optional)</span>
+              <input id="transcript-input" type="file" accept=".srt,.vtt,.sbv" class="hidden">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 flex items-center gap-4">
+        <button id="upload-btn"
+                class="px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          Upload &amp; Index
+        </button>
+        <div id="upload-progress" class="hidden flex-1">
+          <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div id="progress-fill" class="progress-fill h-full bg-indigo-500 rounded-full" style="width: 0%"></div>
+          </div>
+          <p id="progress-text" class="text-xs text-slate-500 mt-1">Uploading...</p>
+        </div>
+      </div>
+      <p id="upload-error" class="hidden mt-3 text-sm text-red-600"></p>
+    </section>
+
+    <!-- Player + Search Section -->
+    <section id="player-section" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 id="video-title" class="text-lg font-semibold text-slate-900"></h2>
+          <p id="segment-count" class="text-xs text-slate-400 mt-0.5"></p>
+        </div>
+        <button id="new-video-btn"
+                class="text-sm text-slate-500 hover:text-slate-700 underline underline-offset-2">
+          Upload another
+        </button>
+      </div>
+
+      <!-- Video Player -->
+      <div class="rounded-xl overflow-hidden bg-black shadow-lg">
+        <video id="video-player" controls class="w-full" preload="metadata"></video>
+      </div>
+
+      <!-- Search -->
+      <div>
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input id="search-input" type="text" placeholder="Search the video content..."
+                 class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
+        <p id="search-status" class="text-xs text-slate-400 mt-2"></p>
+      </div>
+
+      <!-- Results -->
+      <div id="search-results" class="space-y-2"></div>
+    </section>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
